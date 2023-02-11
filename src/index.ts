@@ -1,3 +1,9 @@
+// import frag from 'fragment.frag';
+// import vert from 'vertex.vert';
+
+import frag from './shaders/fragment.frag';
+import vert from './shaders/vertex.vert';
+import { Hello } from './hello';
 import { Application, Sprite, Container, Filter } from 'pixi.js';
 
 const app = new Application({
@@ -10,8 +16,6 @@ const app = new Application({
 	height: 1080,
 });
 
-// throw Error('hello');
-
 const conty1: Container = new Container();
 conty1.x = 150;
 conty1.y = 150;
@@ -23,42 +27,8 @@ conty2.y = 400;
 app.stage.addChild(conty2);
 
 // Load the shader program
-const vertexShader = `
-    attribute vec2 aVertexPosition;
-    uniform mat3 projectionMatrix;
-    varying vec2 vTextureCoord;
-
-    uniform vec4 inputSize;
-    uniform vec4 outputFrame;
-    uniform float utime;
-
-    vec4 filterVertexPosition( void )
-    {
-        vec2 position = aVertexPosition * max(outputFrame.zw, vec2(0.)) + outputFrame.xy;
-
-        return vec4((projectionMatrix * vec3(position + utime, 1.0)).xy, 0.0, 1.0);
-    }
-
-    vec2 filterTextureCoord( void )
-    {
-        return aVertexPosition * (outputFrame.zw * inputSize.zw);
-    }
-
-    void main(void)
-    {
-        gl_Position = filterVertexPosition();
-        vTextureCoord = filterTextureCoord();
-    }
-`;
-const fragmentShader = `
-    precision mediump float;
-    uniform sampler2D uSampler;
-    uniform vec4 uTintColor;
-    varying vec2 vTextureCoord;
-    void main() {
-        gl_FragColor = texture2D(uSampler, vTextureCoord) * uTintColor;
-    }
-`;
+const vertexShader = vert;
+const fragmentShader = frag;
 // const myShader = Shader.from(vertexShader, fragmentShader);
 
 // Create a custom filter

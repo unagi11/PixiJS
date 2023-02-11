@@ -56,6 +56,10 @@ module.exports = (env, argv) => {
                     test: /\.ts(x)?$/,
                     loader: 'ts-loader',
                     exclude: /node_modules/
+                },
+                {
+                    test: /\.(frag|vert)$/,
+                    use: 'raw-loader',
                 }
             ]
         },
