@@ -25,12 +25,29 @@ app.stage.addChild(conty2);
 // Load the shader program
 const vertexShader = `
     attribute vec2 aVertexPosition;
-    attribute vec2 aTextureCoord;
     uniform mat3 projectionMatrix;
     varying vec2 vTextureCoord;
-    void main() {
-        gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);
-        vTextureCoord = aTextureCoord;
+
+    uniform vec4 inputSize;
+    uniform vec4 outputFrame;
+    uniform float utime;
+
+    vec4 filterVertexPosition( void )
+    {
+        vec2 position = aVertexPosition * max(outputFrame.zw, vec2(0.)) + outputFrame.xy;
+
+        return vec4((projectionMatrix * vec3(position + utime, 1.0)).xy, 0.0, 1.0);
+    }
+
+    vec2 filterTextureCoord( void )
+    {
+        return aVertexPosition * (outputFrame.zw * inputSize.zw);
+    }
+
+    void main(void)
+    {
+        gl_Position = filterVertexPosition();
+        vTextureCoord = filterTextureCoord();
     }
 `;
 const fragmentShader = `
@@ -45,7 +62,12 @@ const fragmentShader = `
 // const myShader = Shader.from(vertexShader, fragmentShader);
 
 // Create a custom filter
-const myFilter = new Filter(vertexShader, fragmentShader, { uTintColor: [1, 0, 0, 1] });
+const myFilter = new Filter(vertexShader, fragmentShader, 
+    {
+        uTintColor: [1, 0, 0, 1],
+        utime: 0,
+    }
+);
 
 // Apply the filter to the sprite
 const sprite_1: Sprite = Sprite.from('hos.png');
@@ -67,5 +89,6 @@ app.ticker.add((delta) => {
     // conty.rotation -= 0 * delta;
     conty2.rotation -= 0.4 * delta;
     conty2.x = Math.abs(Math.sin(slow_time)) * 400;
-    myFilter.uniforms.uTintColor = [Math.sin(slow_time), 1- Math.sin(slow_time), Math.sin(slow_time + 2), 1];
+    myFilter.uniforms.uTintColor = [Math.sin(slow_time), 1 - Math.sin(slow_time), Math.sin(slow_time + 2), 1];
+    myFilter.uniforms.utime = Math.sin(slow_time) * 400
 });
