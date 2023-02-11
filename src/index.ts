@@ -20,11 +20,11 @@ conty2.x = 600;
 conty2.y = 600;
 app.stage.addChild(conty2);
 
-const clampy: Sprite = Sprite.from('clampy.png');
+const clampy: Sprite = Sprite.from('hos.png');
 clampy.anchor.set(0.5);
 conty.addChild(clampy);
 
-const clampy2: Sprite = Sprite.from('clampy.png');
+const clampy2: Sprite = Sprite.from('hos.png');
 clampy2.anchor.set(0.5);
 conty2.addChild(clampy2);
 
