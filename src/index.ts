@@ -1,22 +1,36 @@
-import { Application, Sprite } from 'pixi.js'
+import { Application, Sprite, Container } from 'pixi.js';
 
 const app = new Application({
-	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
+	view: document.getElementById('pixi-canvas') as HTMLCanvasElement,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
-	backgroundColor: 0x6495ed,
-	width: 640,
-	height: 480
+	backgroundColor: 0xff00ff,
+    // backgroundAlpha: 0.001,
+	width: 1920,
+	height: 1080,
 });
 
-// imgur 이미지 추가
-const clampy: Sprite = Sprite.from("https://i.imgur.com/17KWbiM.jpeg");
+const conty: Container = new Container();
+conty.x = 100;
+conty.y = 100;
+app.stage.addChild(conty);
 
-// 쿠쿠루 삥뽕 빵뽕
-// 키키킼
+const conty2: Container = new Container();
+conty2.x = 600;
+conty2.y = 600;
+app.stage.addChild(conty2);
+
+const clampy: Sprite = Sprite.from('clampy.png');
 clampy.anchor.set(0.5);
+conty.addChild(clampy);
 
-clampy.x = app.screen.width / 2;
-clampy.y = app.screen.height / 2;
+const clampy2: Sprite = Sprite.from('clampy.png');
+clampy2.anchor.set(0.5);
+conty2.addChild(clampy2);
 
-app.stage.addChild(clampy);
+app.ticker.add((delta) => {
+    // rotate the container!
+    // use delta to create frame-independent transform
+    conty.rotation -= 1 * delta;
+    conty2.rotation -= 0.4 * delta;
+});
