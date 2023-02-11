@@ -4,7 +4,7 @@ const app = new Application({
 	view: document.getElementById('pixi-canvas') as HTMLCanvasElement,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
-	backgroundColor: 0xff00ff,
+	backgroundColor: 0x666666,
     // backgroundAlpha: 0.001,
 	width: 1920,
 	height: 1080,
@@ -31,6 +31,6 @@ conty2.addChild(clampy2);
 app.ticker.add((delta) => {
     // rotate the container!
     // use delta to create frame-independent transform
-    conty.rotation -= 1 * delta;
+    conty.rotation -= 2 * delta;
     conty2.rotation -= 0.4 * delta;
 });
