@@ -66,6 +66,6 @@ app.ticker.add((delta) => {
     // use delta to create frame-independent transform
     // conty.rotation -= 0 * delta;
     conty2.rotation -= 0.4 * delta;
-
+    conty2.x = Math.abs(Math.sin(slow_time)) * 400;
     myFilter.uniforms.uTintColor = [Math.sin(slow_time), 1- Math.sin(slow_time), Math.sin(slow_time + 2), 1];
 });
