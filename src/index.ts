@@ -75,7 +75,7 @@ sprite_1.anchor.set(0.5);
 conty1.addChild(sprite_1);
 sprite_1.filters = [myFilter];
 
-const sprite_2: Sprite = Sprite.from('hos.png');5
+const sprite_2: Sprite = Sprite.from('hos.png');
 sprite_2.anchor.set(0);
 conty2.addChild(sprite_2);
 
@@ -83,7 +83,6 @@ let time = 0;
 app.ticker.add((delta) => {
     time += delta;
     let slow_time = time * 0.01
-
     // rotate the container!
     // use delta to create frame-independent transform
     // conty.rotation -= 0 * delta;
