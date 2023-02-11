@@ -9,6 +9,7 @@ const app = new Application({
 	height: 480
 });
 
+// imgur 이미지 추가
 const clampy: Sprite = Sprite.from("https://i.imgur.com/17KWbiM.jpeg");
 
 clampy.anchor.set(0.5);
