@@ -1,5 +1,3 @@
-@echo off
-
 REM Delete the "docs" folder
 rmdir /s /q docs
 
@@ -17,3 +15,6 @@ git commit -m "build: %DATE% %TIME:~0,8%"
 
 REM Push changes to remote repository
 git push
+
+echo Build complete.
+pause
