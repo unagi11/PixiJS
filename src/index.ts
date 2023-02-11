@@ -12,10 +12,10 @@ const app = new Application({
 
 // throw Error('hello');
 
-const conty: Container = new Container();
-conty.x = 150;
-conty.y = 150;
-app.stage.addChild(conty);
+const conty1: Container = new Container();
+conty1.x = 150;
+conty1.y = 150;
+app.stage.addChild(conty1);
 
 const conty2: Container = new Container();
 conty2.x = 400;
@@ -72,11 +72,11 @@ const myFilter = new Filter(vertexShader, fragmentShader,
 // Apply the filter to the sprite
 const sprite_1: Sprite = Sprite.from('hos.png');
 sprite_1.anchor.set(0.5);
-conty.addChild(sprite_1);
+conty1.addChild(sprite_1);
 sprite_1.filters = [myFilter];
 
-const sprite_2: Sprite = Sprite.from('hos.png');
-sprite_2.anchor.set(0.5);
+const sprite_2: Sprite = Sprite.from('hos.png');5
+sprite_2.anchor.set(0);
 conty2.addChild(sprite_2);
 
 let time = 0;
@@ -87,8 +87,8 @@ app.ticker.add((delta) => {
     // rotate the container!
     // use delta to create frame-independent transform
     // conty.rotation -= 0 * delta;
-    conty2.rotation -= 0.4 * delta;
-    conty2.x = Math.abs(Math.sin(slow_time)) * 400;
+    conty2.rotation -= 0.01 * delta;
+    // conty2.x = Math.abs(Math.sin(slow_time)) * 400;
     myFilter.uniforms.uTintColor = [Math.sin(slow_time), 1 - Math.sin(slow_time), Math.sin(slow_time + 2), 1];
-    myFilter.uniforms.utime = Math.sin(slow_time) * 400
+    // myFilter.uniforms.utime = Math.sin(slow_time) * 400
 });
