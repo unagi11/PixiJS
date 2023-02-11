@@ -11,13 +11,13 @@ const app = new Application({
 });
 
 const conty: Container = new Container();
-conty.x = 100;
-conty.y = 100;
+conty.x = 150;
+conty.y = 150;
 app.stage.addChild(conty);
 
 const conty2: Container = new Container();
-conty2.x = 600;
-conty2.y = 600;
+conty2.x = 400;
+conty2.y = 400;
 app.stage.addChild(conty2);
 
 const clampy: Sprite = Sprite.from('hos.png');
