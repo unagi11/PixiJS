@@ -1,4 +1,4 @@
-import { Application, Sprite, Container } from 'pixi.js';
+import { Application, Sprite, Container, Filter } from 'pixi.js';
 
 const app = new Application({
 	view: document.getElementById('pixi-canvas') as HTMLCanvasElement,
@@ -20,17 +20,49 @@ conty2.x = 400;
 conty2.y = 400;
 app.stage.addChild(conty2);
 
-const clampy: Sprite = Sprite.from('hos.png');
-clampy.anchor.set(0.5);
-conty.addChild(clampy);
+// Load the shader program
+const vertexShader = `
+    attribute vec2 aVertexPosition;
+    attribute vec2 aTextureCoord;
+    uniform mat3 projectionMatrix;
+    varying vec2 vTextureCoord;
+    void main() {
+        gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);
+        vTextureCoord = aTextureCoord;
+    }
+`;
+const fragmentShader = `
+    precision mediump float;
+    uniform sampler2D uSampler;
+    uniform vec4 uTintColor;
+    varying vec2 vTextureCoord;
+    void main() {
+        gl_FragColor = texture2D(uSampler, vTextureCoord) * uTintColor;
+    }
+`;
+// const myShader = Shader.from(vertexShader, fragmentShader);
 
-const clampy2: Sprite = Sprite.from('hos.png');
-clampy2.anchor.set(0.5);
-conty2.addChild(clampy2);
+// Create a custom filter
+const myFilter = new Filter(vertexShader, fragmentShader, { uTintColor: [1, 0, 0, 1] });
 
+// Apply the filter to the sprite
+const sprite_1: Sprite = Sprite.from('hos.png');
+sprite_1.anchor.set(0.5);
+conty.addChild(sprite_1);
+sprite_1.filters = [myFilter];
+
+const sprite_2: Sprite = Sprite.from('hos.png');
+sprite_2.anchor.set(0.5);
+conty2.addChild(sprite_2);
+
+let time = 0;
 app.ticker.add((delta) => {
+    time += delta;
+
     // rotate the container!
     // use delta to create frame-independent transform
     conty.rotation -= 2 * delta;
     conty2.rotation -= 0.4 * delta;
+
+    myFilter.uniforms.uTintColor = [Math.sin(time * 0.05), 1- Math.sin(time * 0.05), Math.sin(time * 0.05 + 2), 1];
 });
