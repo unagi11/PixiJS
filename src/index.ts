@@ -9,7 +9,7 @@ const app = new Application({
 	height: 480
 });
 
-const clampy: Sprite = Sprite.from("clampy.png");
+const clampy: Sprite = Sprite.from("https://i.imgur.com/17KWbiM.jpeg");
 
 clampy.anchor.set(0.5);
 
