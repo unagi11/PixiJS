@@ -13,6 +13,7 @@ const app = new Application({
 const clampy: Sprite = Sprite.from("https://i.imgur.com/17KWbiM.jpeg");
 
 // 쿠쿠루 삥뽕 빵뽕
+// 키키킼
 clampy.anchor.set(0.5);
 
 clampy.x = app.screen.width / 2;
