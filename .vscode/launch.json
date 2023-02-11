@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "LAUNCH",
+            "request": "launch",
+            "url": "http://localhost:3163/",
+            // "debug.javascript.usePreview": false
+            // "debugServer": 4711
+        },
+        {
+            "type": "chrome",
+            "name": "ATTACH",
+            "request": "attach",
+            "url": "http://localhost:3163/",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true
+        }
+    ]
+}

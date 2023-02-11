@@ -10,6 +10,8 @@ const app = new Application({
 	height: 1080,
 });
 
+// throw Error('hello');
+
 const conty: Container = new Container();
 conty.x = 150;
 conty.y = 150;
@@ -58,11 +60,12 @@ conty2.addChild(sprite_2);
 let time = 0;
 app.ticker.add((delta) => {
     time += delta;
+    let slow_time = time * 0.01
 
     // rotate the container!
     // use delta to create frame-independent transform
-    conty.rotation -= 2 * delta;
+    // conty.rotation -= 0 * delta;
     conty2.rotation -= 0.4 * delta;
 
-    myFilter.uniforms.uTintColor = [Math.sin(time * 0.05), 1- Math.sin(time * 0.05), Math.sin(time * 0.05 + 2), 1];
+    myFilter.uniforms.uTintColor = [Math.sin(slow_time), 1- Math.sin(slow_time), Math.sin(slow_time + 2), 1];
 });
