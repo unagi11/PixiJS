@@ -11,7 +11,7 @@ xcopy /E /Y dist docs
 
 REM Stage all changes and commit with the current date and time
 git add .
-git commit -m "build: %DATE% %TIME:~0,6%"
+git commit -m "build: %DATE% %TIME:~0,8%"
 
 REM Push changes to remote repository
 git push
