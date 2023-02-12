@@ -1,7 +1,14 @@
 import frag from './shaders/fragment.frag'
 import vert from './shaders/vertex.vert'
-import { Application, Sprite, Container, Filter, Assets, Point, Graphics, Text, TextStyle, BitmapText, Loader, TEXT_GRADIENT } from 'pixi.js'
+import { Application, Sprite, Container, Filter, Assets, Point, Graphics, Text, TextStyle, BitmapText, Loader, TEXT_GRADIENT, ParticleContainer, Texture } from 'pixi.js'
 import TaggedText from 'pixi-tagged-text'
+import particleSettings from "./particles/emitter.json"
+import { Emitter } from '@pixi/particle-emitter'
+import { EmitterConfigV3 } from '@pixi/particle-emitter/lib/EmitterConfig'
+
+let a = particleSettings
+
+console.log(a);
 
 export const global: any = window as any
 
@@ -12,9 +19,12 @@ export const app = new Application({
 	backgroundColor: 0x666666,
 	// backgroundAlpha: 0.001,
 	width: 640,
-	height: 360,
+	height: 480,
 })
 global.app = app
+
+console.log(app.screen);
+console.log
 
 const container_1: Container = new Container()
 container_1.scale.set(0.5)
@@ -115,7 +125,7 @@ app.ticker.add((delta) => {
 // t.getStyleForTag('big').fo
 
 // t.textFields[0].visible = false; // Makes the word "Big" disappear.
-
+ 
 // t.draw(); // recreates the text fields restoring "Big"
 
 let time = 0
@@ -137,3 +147,129 @@ app.ticker.add((delta) => {
 	myFilter.uniforms.uTintColor = [Math.sin(slow_time), 1 - Math.sin(slow_time), Math.sin(slow_time + 2), 1]
 	// myFilter.uniforms.utime = Math.sin(slow_time) * 400
 })
+
+
+const particleContainer = new ParticleContainer(1000);
+app.stage.addChild(particleContainer);
+
+let emitter = new Emitter(particleContainer,  {
+    lifetime: {
+        min: 0.5,
+        max: 0.5
+    },
+    frequency: 0.008,
+    spawnChance: 1,
+    particlesPerWave: 1,
+    emitterLifetime: 0.31,
+    maxParticles: 1000,
+    pos: {
+        x: 0,
+        y: 0
+    },
+    addAtBack: false,
+    behaviors: [
+        {
+            type: 'alpha',
+            config: {
+                alpha: {
+                    list: [
+                        {
+                            value: 0.8,
+                            time: 0
+                        },
+                        {
+                            value: 0.1,
+                            time: 1
+                        }
+                    ],
+                },
+            }
+        },
+        {
+            type: 'scale',
+            config: {
+                scale: {
+                    list: [
+                        {
+                            value: 1,
+                            time: 0
+                        },
+                        {
+                            value: 0.3,
+                            time: 1
+                        }
+                    ],
+                },
+            }
+        },
+        {
+            type: 'color',
+            config: {
+                color: {
+                    list: [
+                        {
+                            value: "fb1010",
+                            time: 0
+                        },
+                        {
+                            value: "f5b830",
+                            time: 1
+                        }
+                    ],
+                },
+            }
+        },
+        {
+            type: 'moveSpeed',
+            config: {
+                speed: {
+                    list: [
+                        {
+                            value: 200,
+                            time: 0
+                        },
+                        {
+                            value: 100,
+                            time: 1
+                        }
+                    ],
+                    isStepped: false
+                },
+            }
+        },
+        {
+            type: 'rotationStatic',
+            config: {
+                min: 0,
+                max: 360
+            }
+        },
+        {
+            type: 'spawnShape',
+            config: {
+                type: 'torus',
+                data: {
+                    x: 0,
+                    y: 0,
+                    radius: 10
+                }
+            }
+        },
+        {
+            type: 'textureSingle',
+            config: {
+                texture: Texture.from('particle.png')
+            }
+        }
+    ],
+}
+);
+
+// emitter.autoUpdate = true;
+// emitter.updateSpawnPos(100, 200);
+emitter.emit = true;
+
+app.ticker.add(delta => {
+    emitter.update(delta)
+})
+
