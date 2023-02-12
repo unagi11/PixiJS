@@ -72,13 +72,15 @@ graphics.position.set(100, 100);
 
 const styly: TextStyle = new TextStyle({
     align: 'left',
-    fill: "#999999",
+    fill: "#00CCFF",
     fontSize: 42
 });
 
 // Text supports unicode!
-const texty: Text = new Text('몰루? 몰루? 몰루? 몰루? \n몰루? 몰루? 몰루? 몰루? \n몰루? 몰루? 몰루? 몰루? \n몰루? 몰루? 몰루? 몰루? \n몰루? 몰루? 몰루? 몰루? \n몰루? 몰루? 몰루? 몰루? \n몰루? 몰루? 몰루? 몰루? \n몰루? 몰루? 몰루? 몰루? \n몰루? 몰루? 몰루? 몰루? \n', styly); 
+
+let a = Array(10).map(_ => '몰?루').join()
+const texty: Text = new Text(a);  
 texty.position.set(100, 0)
 
 // texty.text = "This is expensive to change, please do not abuse";
-app.stage.addChild(texty);
+app.stage.addChildAt(texty, 0);
