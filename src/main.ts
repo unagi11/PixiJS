@@ -1,6 +1,8 @@
 import frag from './shaders/fragment.frag'
 import vert from './shaders/vertex.vert'
-import { Application, Sprite, Container, Filter, Point, Graphics, Text, TextStyle, BitmapText, Loader, loadWebFont, Assets } from 'pixi.js'
+import { Application, Sprite, Container, Filter, Assets,  Point, Graphics, Text, TextStyle, BitmapText, Loader,  TEXT_GRADIENT } from 'pixi.js'
+import TaggedText from 'pixi-tagged-text'
+
 
 export const global: any = window as any
 
@@ -28,6 +30,14 @@ app.stage.addChild(container_2)
 const vertexShader = vert
 const fragmentShader = frag
 // const myShader = Shader.from(vertexShader, fragmentShader);
+
+const style2 = new TextStyle({
+    fontFamily: 'Arial',
+    fontSize: 24,
+    fill: 0xff1010,
+    align: 'center',
+});
+
 
 // Create a custom filter
 const myFilter = new Filter(vertexShader, fragmentShader, {
@@ -68,6 +78,8 @@ const style = new TextStyle({
     fontSize: 36,
     fontStyle: 'italic',
     fontWeight: 'bold',
+    fillGradientType: TEXT_GRADIENT.LINEAR_HORIZONTAL,
+    fillGradientStops: [0, 0.4],
     fill: ['#ffffff', '#00ff99'], // gradient
     stroke: '#4a1850',
     strokeThickness: 5,
@@ -77,18 +89,43 @@ const style = new TextStyle({
     dropShadowAngle: Math.PI / 6,
     dropShadowDistance: 6,
     wordWrap: true,
-    wordWrapWidth: 440,
+    wordWrapWidth: 100,
     lineJoin: 'round',
 });
 
 let str = ""
 const texty: Text = new Text(str, style); 
 texty.position.set(100, 0)
+
 app.stage.addChildAt(texty, 0);
 
 Assets.load('PF스타더스트.ttf')
 
+const t = new TaggedText("aaa <big>Big text</big> aaa", { 
+    big: { 
+        fontSize: 100,
+        color: '#ff0000'
+    } 
+}); // renders "Big text" at 25px
+
+app.stage.addChild(t);
+
+let tt = 0;
+app.ticker.add(delta => {
+    tt += delta;
+    t.tagStyles.big.fontSize = tt; // The change to the style wasn't detected. It still renders "Big text" at 25px
+    t.update(); // now it renders correctly.    
+})
+
+// t.getStyleForTag('big').fo 
+
+
+// t.textFields[0].visible = false; // Makes the word "Big" disappear.
+
+// t.draw(); // recreates the text fields restoring "Big"
+
 let time = 0
+let updated = 0;
 app.ticker.add((delta) => {
 	time += delta
 	let slow_time = time * 0.01
@@ -97,7 +134,11 @@ app.ticker.add((delta) => {
 	// conty.rotation -= 0 * delta;
 	container_2.rotation -= 0.01 * delta
 
-    texty.text = `${time}\n${time}\n${time}\n${time}\n${time}\n${time}\n${time}`;
+    if (updated != Math.floor(time)) {
+        texty.text = [...`${updated * updated}`].join(' ');
+        updated = Math.floor(time);
+    }
+    
 	// conty2.x = Math.abs(Math.sin(slow_time)) * 400;
 	myFilter.uniforms.uTintColor = [Math.sin(slow_time), 1 - Math.sin(slow_time), Math.sin(slow_time + 2), 1]
 	// myFilter.uniforms.utime = Math.sin(slow_time) * 400

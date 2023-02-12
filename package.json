@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "ismobilejs": "^1.1.1",
+    "pixi-tagged-text": "^3.11.0",
     "pixi.js": "^7.1.1"
   },
   "devDependencies": {
