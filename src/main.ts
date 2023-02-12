@@ -1,8 +1,7 @@
 import frag from './shaders/fragment.frag'
 import vert from './shaders/vertex.vert'
-import { Application, Sprite, Container, Filter, Assets,  Point, Graphics, Text, TextStyle, BitmapText, Loader,  TEXT_GRADIENT } from 'pixi.js'
+import { Application, Sprite, Container, Filter, Assets, Point, Graphics, Text, TextStyle, BitmapText, Loader,  TEXT_GRADIENT } from 'pixi.js'
 import TaggedText from 'pixi-tagged-text'
-
 
 export const global: any = window as any
 
@@ -31,14 +30,6 @@ const vertexShader = vert
 const fragmentShader = frag
 // const myShader = Shader.from(vertexShader, fragmentShader);
 
-const style2 = new TextStyle({
-    fontFamily: 'Arial',
-    fontSize: 24,
-    fill: 0xff1010,
-    align: 'center',
-});
-
-
 // Create a custom filter
 const myFilter = new Filter(vertexShader, fragmentShader, {
 	uTintColor: [1, 0, 0, 1],
@@ -55,11 +46,10 @@ const sprite_2: Sprite = Sprite.from('hos.png')
 sprite_2.anchor.set(0.5)
 container_2.addChild(sprite_2)
 
-
 const graphics: Graphics = new Graphics();
 
 graphics.beginFill(0xFF00FF);
-graphics.lineStyle(10, 0x00FF00);
+graphics.lineStyle(10, 0x00FF00); 
 graphics.drawCircle(0, 0, 25);
 graphics.endFill()
 
@@ -67,14 +57,8 @@ app.stage.addChild(graphics);
 
 graphics.position.set(100, 100);
 
-const styly: TextStyle = new TextStyle({
-    align: 'left',
-    fill: "#00CCFF",
-    fontSize: 42
-});
-
 const style = new TextStyle({
-    fontFamily: "PF스타더스트",
+    fontFamily: 'DungGeunMo',
     fontSize: 36,
     fontStyle: 'italic',
     fontWeight: 'bold',
@@ -100,20 +84,30 @@ texty.position.set(100, 0)
 app.stage.addChildAt(texty, 0);
 
 Assets.load('PF스타더스트.ttf')
+Assets.load('DungGeunMo.ttf')
 
-const t = new TaggedText("aaa <big>Big text</big> aaa", { 
+const t = new TaggedText("aaa <big>Big text</big> aaa", {
+    default: {
+        fontFamily: 'DungGeunMo',
+    },
     big: { 
-        fontSize: 100,
-        color: '#ff0000'
+        fontSize: 40,
+        color: '#ff0000',
+        fontFamily: 'DungGeunMo',
     } 
 }); // renders "Big text" at 25px
 
 app.stage.addChild(t);
 
-let tt = 0;
+let text_size = 50;
+let is_ascending = true;
+
 app.ticker.add(delta => {
-    tt += delta;
-    t.tagStyles.big.fontSize = tt; // The change to the style wasn't detected. It still renders "Big text" at 25px
+    text_size = is_ascending ? text_size + delta : text_size - delta;
+    if (text_size > 100) is_ascending = false;
+    if (text_size < 50) is_ascending = true;
+
+    t.tagStyles.big.fontSize = text_size; // The change to the style wasn't detected. It still renders "Big text" at 25px
     t.update(); // now it renders correctly.    
 })
 
