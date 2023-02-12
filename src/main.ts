@@ -14,13 +14,13 @@ export const app = new Application({
 }); global.app = app;
 
 const conty1: Container = new Container();
-conty1.x = 150;
-conty1.y = 150;
+conty1.x = 200;
+conty1.y = 200;
 app.stage.addChild(conty1);
 
 const conty2: Container = new Container();
-conty2.x = 400;
-conty2.y = 400;
+conty2.x = 500;
+conty2.y = 250;
 app.stage.addChild(conty2);
 
 // Load the shader program
@@ -35,13 +35,13 @@ const myFilter = new Filter(vertexShader, fragmentShader, {
 });
 
 // Apply the filter to the sprite
-const sprite_1: Sprite = Sprite.from('hos.png');
+const sprite_1: Sprite = Sprite.from('mollu.gif');
 sprite_1.anchor.set(0.5);
 conty1.addChild(sprite_1);
 sprite_1.filters = [myFilter];
 
 const sprite_2: Sprite = Sprite.from('hos.png');
-sprite_2.anchor.set(0);
+sprite_2.anchor.set(0.5);
 conty2.addChild(sprite_2);
 
 let time = 0;
