@@ -7,13 +7,13 @@
         "module": "ESNext",
     
         // Rules for your code
-        "strict": true,
-        "noImplicitAny": true,
-        "noImplicitReturns": true,
-        "noUnusedParameters": true,
-        "noUnusedLocals": false,
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitOverride": true,
+        // "strict": true,
+        // "noImplicitAny": false,
+        // "noImplicitReturns": false,
+        // "noUnusedParameters": false,
+        // "noUnusedLocals": false,
+        // "noFallthroughCasesInSwitch": true,
+        // "noImplicitOverride": true,
 
         // Settings for linking source files
         "moduleResolution": "node",
@@ -21,6 +21,5 @@
         "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
-
     },
 }

@@ -5,16 +5,17 @@ import frag from './shaders/fragment.frag';
 import vert from './shaders/vertex.vert';
 import { Hello } from './hello';
 import { Application, Sprite, Container, Filter } from 'pixi.js';
+export const global : any = window as any;
 
-const app = new Application({
+export const app = new Application({
 	view: document.getElementById('pixi-canvas') as HTMLCanvasElement,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
 	backgroundColor: 0x666666,
-    // backgroundAlpha: 0.001,
+	// backgroundAlpha: 0.001,
 	width: 1920,
 	height: 1080,
-});
+}); global.app = app;
 
 const conty1: Container = new Container();
 conty1.x = 150;
@@ -32,12 +33,10 @@ const fragmentShader = frag;
 // const myShader = Shader.from(vertexShader, fragmentShader);
 
 // Create a custom filter
-const myFilter = new Filter(vertexShader, fragmentShader, 
-    {
-        uTintColor: [1, 0, 0, 1],
-        utime: 0,
-    }
-);
+const myFilter = new Filter(vertexShader, fragmentShader, {
+	uTintColor: [1, 0, 0, 1],
+	utime: 0,
+});
 
 // Apply the filter to the sprite
 const sprite_1: Sprite = Sprite.from('hos.png');
@@ -51,13 +50,13 @@ conty2.addChild(sprite_2);
 
 let time = 0;
 app.ticker.add((delta) => {
-    time += delta;
-    let slow_time = time * 0.01
-    // rotate the container!
-    // use delta to create frame-independent transform
-    // conty.rotation -= 0 * delta;
-    conty2.rotation -= 0.01 * delta;
-    // conty2.x = Math.abs(Math.sin(slow_time)) * 400;
-    myFilter.uniforms.uTintColor = [Math.sin(slow_time), 1 - Math.sin(slow_time), Math.sin(slow_time + 2), 1];
-    // myFilter.uniforms.utime = Math.sin(slow_time) * 400
+	time += delta;
+	let slow_time = time * 0.01;
+	// rotate the container!
+	// use delta to create frame-independent transform
+	// conty.rotation -= 0 * delta;
+	conty2.rotation -= 0.01 * delta;
+	// conty2.x = Math.abs(Math.sin(slow_time)) * 400;
+	myFilter.uniforms.uTintColor = [Math.sin(slow_time), 1 - Math.sin(slow_time), Math.sin(slow_time + 2), 1];
+	// myFilter.uniforms.utime = Math.sin(slow_time) * 400
 });
