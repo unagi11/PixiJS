@@ -78,8 +78,8 @@ const styly: TextStyle = new TextStyle({
 
 // Text supports unicode!
 
-let a = Array(10).map(_ => '몰?루').join()
-const texty: Text = new Text(a);  
+let array = Array(10).fill('몰?루 몰?루 몰?루 몰?루\n').join('')
+const texty: Text = new Text(array, styly);  
 texty.position.set(100, 0)
 
 // texty.text = "This is expensive to change, please do not abuse";
