@@ -1,9 +1,5 @@
-// import frag from 'fragment.frag';
-// import vert from 'vertex.vert';
-
 import frag from './shaders/fragment.frag';
 import vert from './shaders/vertex.vert';
-import { Hello } from './hello';
 import { Application, Sprite, Container, Filter } from 'pixi.js';
 export const global : any = window as any;
 
