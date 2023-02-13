@@ -1,3 +1,5 @@
 import { Assets } from 'pixi.js';
 
-Assets.load('PF스타더스트.ttf')
+export async function load_all() {
+    await Assets.load('PF스타더스트.ttf')
+}
