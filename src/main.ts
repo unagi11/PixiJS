@@ -5,6 +5,7 @@ import TaggedText from 'pixi-tagged-text'
 import particleSettings from "./particles/emitter.json"
 import { Emitter } from '@pixi/particle-emitter'
 import { EmitterConfigV3 } from '@pixi/particle-emitter/lib/EmitterConfig'
+import emitter_setting from './particles/emitter.json'
 
 let a = particleSettings
 
@@ -149,128 +150,17 @@ app.ticker.add((delta) => {
 })
 
 
-const particleContainer = new ParticleContainer(1000);
-app.stage.addChild(particleContainer);
+const particleContainer = new ParticleContainer(100);
+container_1.addChild(particleContainer);
 
-let emitter = new Emitter(particleContainer,  {
-    lifetime: {
-        min: 0.5,
-        max: 0.5
-    },
-    frequency: 0.008,
-    spawnChance: 1,
-    particlesPerWave: 1,
-    emitterLifetime: 0.31,
-    maxParticles: 1000,
-    pos: {
-        x: 0,
-        y: 0
-    },
-    addAtBack: false,
-    behaviors: [
-        {
-            type: 'alpha',
-            config: {
-                alpha: {
-                    list: [
-                        {
-                            value: 0.8,
-                            time: 0
-                        },
-                        {
-                            value: 0.1,
-                            time: 1
-                        }
-                    ],
-                },
-            }
-        },
-        {
-            type: 'scale',
-            config: {
-                scale: {
-                    list: [
-                        {
-                            value: 1,
-                            time: 0
-                        },
-                        {
-                            value: 0.3,
-                            time: 1
-                        }
-                    ],
-                },
-            }
-        },
-        {
-            type: 'color',
-            config: {
-                color: {
-                    list: [
-                        {
-                            value: "fb1010",
-                            time: 0
-                        },
-                        {
-                            value: "f5b830",
-                            time: 1
-                        }
-                    ],
-                },
-            }
-        },
-        {
-            type: 'moveSpeed',
-            config: {
-                speed: {
-                    list: [
-                        {
-                            value: 200,
-                            time: 0
-                        },
-                        {
-                            value: 100,
-                            time: 1
-                        }
-                    ],
-                    isStepped: false
-                },
-            }
-        },
-        {
-            type: 'rotationStatic',
-            config: {
-                min: 0,
-                max: 360
-            }
-        },
-        {
-            type: 'spawnShape',
-            config: {
-                type: 'torus',
-                data: {
-                    x: 0,
-                    y: 0,
-                    radius: 10
-                }
-            }
-        },
-        {
-            type: 'textureSingle',
-            config: {
-                texture: Texture.from('particle.png')
-            }
-        }
-    ],
-}
-);
+let emitter = new Emitter(particleContainer, emitter_setting);
 
 // emitter.autoUpdate = true;
 // emitter.updateSpawnPos(100, 200);
 emitter.emit = true;
 
 app.ticker.add(delta => {
-    emitter.update(delta)
+    emitter.update(delta * 0.001)
 })
 
 // hello world!!
