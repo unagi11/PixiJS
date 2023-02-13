@@ -1,10 +1,9 @@
-import frag from './shaders/fragment.frag';
-import vert from './shaders/vertex.vert';
-import { Application, Sprite, Container, Filter, Assets, Point, Graphics, Text, TextStyle, BitmapText, Loader, TEXT_GRADIENT, ParticleContainer, Texture } from 'pixi.js';
+import frag from './shader/fragment.frag';
+import vert from './shader/vertex.vert';
+import * as PIXI from 'pixi.js';
 import TaggedText from 'pixi-tagged-text';
-import particleSettings from './particles/emitter.json';
 import { Emitter } from '@pixi/particle-emitter';
-import emitter_setting from './particles/emitter.json';
+import emitter_setting from './json/emitter.json';
 import { load_all } from './loader';
 
 /**
@@ -15,7 +14,7 @@ export const global: any = window as any;
 /**
  * pixi application 생성
  */
-export const app = new Application({
+export const app = new PIXI.Application({
 	view: document.getElementById('pixi-canvas') as HTMLCanvasElement,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
@@ -29,17 +28,15 @@ global.app = app;
 main();
 
 async function main() {
-	await load_all();
 
-	console.log(app.screen);
-	console.log;
+    await load_all();
 
-	const container_1: Container = new Container();
+	const container_1: PIXI.Container = new PIXI.Container();
 	container_1.scale.set(0.5);
 	container_1.position.set(app.screen.width / 2, app.screen.height / 2);
 	app.stage.addChild(container_1);
 
-	const container_2: Container = new Container();
+	const container_2: PIXI.Container = new PIXI.Container();
 	container_2.position.set(500, 250);
 	app.stage.addChild(container_2);
 
@@ -49,22 +46,22 @@ async function main() {
 	// const myShader = Shader.from(vertexShader, fragmentShader);
 
 	// Create a custom filter
-	const myFilter = new Filter(vertexShader, fragmentShader, {
+	const myFilter = new PIXI.Filter(vertexShader, fragmentShader, {
 		uTintColor: [1, 0, 0, 1],
 		utime: 0,
 	});
 
 	// Apply the filter to the sprite
-	const sprite_1: Sprite = Sprite.from('mollu.gif');
+	const sprite_1: PIXI.Sprite = PIXI.Sprite.from('mollu');
 	sprite_1.anchor.set(0.5);
 	container_1.addChild(sprite_1);
 	sprite_1.filters = [myFilter];
 
-	const sprite_2: Sprite = Sprite.from('hos.png');
+	const sprite_2: PIXI.Sprite = PIXI.Sprite.from('hos');
 	sprite_2.anchor.set(0.5);
 	container_2.addChild(sprite_2);
 
-	const graphics: Graphics = new Graphics();
+	const graphics: PIXI.Graphics = new PIXI.Graphics();
 
 	graphics.beginFill(0xff00ff);
 	graphics.lineStyle(10, 0x00ff00);
@@ -75,12 +72,12 @@ async function main() {
 
 	graphics.position.set(100, 100);
 
-	const style = new TextStyle({
+	const style = new PIXI.TextStyle({
 		fontFamily: 'DungGeunMo',
 		fontSize: 36,
 		fontStyle: 'italic',
 		fontWeight: 'bold',
-		fillGradientType: TEXT_GRADIENT.LINEAR_HORIZONTAL,
+		fillGradientType: PIXI.TEXT_GRADIENT.LINEAR_HORIZONTAL,
 		fillGradientStops: [0, 0.4],
 		fill: ['#ffffff', '#00ff99'], // gradient
 		stroke: '#4a1850',
@@ -96,13 +93,10 @@ async function main() {
 	});
 
 	let str = '';
-	const texty: Text = new Text(str, style);
+	const texty: PIXI.Text = new PIXI.Text(str, style);
 	texty.position.set(100, 0);
 
 	app.stage.addChildAt(texty, 0);
-
-	Assets.load('PF스타더스트.ttf');
-	Assets.load('DungGeunMo.ttf');
 
 	const t = new TaggedText('aaa <big>Big text</big> aaa', {
 		default: {
@@ -156,7 +150,7 @@ async function main() {
 		// myFilter.uniforms.utime = Math.sin(slow_time) * 400
 	});
 
-	const particleContainer = new ParticleContainer(100);
+	const particleContainer = new PIXI.ParticleContainer(100);
 	container_1.addChild(particleContainer);
 
 	let emitter = new Emitter(particleContainer, emitter_setting);

@@ -1,0 +1,55 @@
+{
+	"bundles": [
+        {
+			"name": "test-screen",
+			"assets": [
+				{
+					"name": "mollu",
+					"srcs": "mollu.jpg"
+				},
+				{
+					"name": "hos",
+					"srcs": "hos.png"
+				},
+                {
+                    "name": "particle",
+                    "srcs": "particle.png"
+                },
+                {
+                    "name": "PF스타더스트",
+                    "srcs": "PF스타더스트.ttf"
+                },
+                {
+                    "name": "DungGeunMo",
+                    "srcs": "DungGeunMo.ttf"
+                }
+			]
+        },
+		{
+			"name": "load-screen",
+			"assets": [
+				{
+					"name": "background",
+					"srcs": "sunset.png"
+				},
+				{
+					"name": "bar",
+					"srcs": "load-bar.{png,webp}"
+				}
+			]
+		},
+		{
+			"name": "game-screen",
+			"assets": [
+				{
+					"name": "character",
+					"srcs": "robot.png"
+				},
+				{
+					"name": "enemy",
+					"srcs": "bad-guy.png"
+				}
+			]
+		}
+	]
+}
