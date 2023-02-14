@@ -1,15 +1,10 @@
 import frag from './shader/fragment.frag';
 import vert from './shader/vertex.vert';
-import * as PIXI from 'pixi.js';
 import TaggedText from 'pixi-tagged-text';
 import { Emitter } from '@pixi/particle-emitter';
 import emitter_setting from './json/emitter.json';
-import { load_all } from './loader';
-
-/**
- * window 를 global로 접근 가능
- */
-export const global: any = window as any;
+import * as PIXI from 'pixi.js';
+import * as LOADER from './loader';
 
 /**
  * pixi application 생성
@@ -21,15 +16,17 @@ export const app = new PIXI.Application({
 	backgroundColor: 0x666666,
 	width: 480,
 	height: 640,
-}); 
+});
 global.app = app;
 
 // main 함수 실행
 main();
 
+/**
+ * 메인 함수 실행
+ */
 async function main() {
-
-    await load_all();
+	await LOADER.load_all();
 
 	const container_1: PIXI.Container = new PIXI.Container();
 	container_1.scale.set(0.5);
@@ -51,11 +48,13 @@ async function main() {
 		utime: 0,
 	});
 
+    container_1.filters = [myFilter];
+
 	// Apply the filter to the sprite
 	const sprite_1: PIXI.Sprite = PIXI.Sprite.from('mollu');
-	sprite_1.anchor.set(0.5);
+	sprite_1.anchor.set(0.5, 0.5);
 	container_1.addChild(sprite_1);
-	sprite_1.filters = [myFilter];
+	// sprite_1.filters = [myFilter];
 
 	const sprite_2: PIXI.Sprite = PIXI.Sprite.from('hos');
 	sprite_2.anchor.set(0.5);
@@ -105,7 +104,7 @@ async function main() {
 		big: {
 			fontSize: 40,
 			color: '#ff0000',
-			fontFamily: 'DungGeunMo',
+			fontFamily: 'PF스타더스트',
 		},
 	}); // renders "Big text" at 25px
 
@@ -157,7 +156,7 @@ async function main() {
 
 	// emitter.autoUpdate = true;
 	// emitter.updateSpawnPos(100, 200);
-	emitter.emit = true;
+	// emitter.emit = true;
 
 	app.ticker.add((delta) => {
 		emitter.update(delta * 0.001);
