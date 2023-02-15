@@ -1,7 +1,5 @@
 import frag from './shader/fragment.frag';
 import vert from './shader/vertex.vert';
-import TaggedText from 'pixi-tagged-text';
-import { Emitter } from '@pixi/particle-emitter';
 import emitter_setting from './json/emitter.json';
 import * as PIXI from 'pixi.js';
 import * as LOADER from './loader';
@@ -11,22 +9,53 @@ import * as LOADER from './loader';
  */
 export const app = new PIXI.Application({
 	view: document.getElementById('pixi-canvas') as HTMLCanvasElement,
-	resolution: window.devicePixelRatio || 1,
+	resolution: 1,
 	autoDensity: true,
 	backgroundColor: 0x666666,
-	width: 480,
-	height: 640,
+	width: window.innerWidth,
+	height: window.innerHeight,
+    antialias: false
 });
 global.app = app;
 
+global.DESIGN_WIDTH  = 1280;
+global.DESIGN_HEIGHT = 720;
+
 // main 함수 실행
 main();
+
 
 /**
  * 메인 함수 실행
  */
 async function main() {
 	await LOADER.load_all();
+
+    window.addEventListener('resize', resize);
+
+    function resize()
+    {
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+
+        // let screenRatio = height / width;
+        // let screenRatio_bef = container_1.height / container_1.width;
+        
+        //세로가 더 긴 상황. 가로에 포커스.
+        // if(screenRatio > screenRatio_bef)
+        // {
+        //     container_1.width = width;
+        //     container_1.height = width * screenRatio_bef;
+        // }
+        // else
+        // {
+        //     container_1.height = height;
+        //     container_1.width = height / screenRatio_bef;
+        // }
+        
+        app.renderer.resize(width, height);
+        // container_1.position.set(app.screen.width / 2, app.screen.height / 2);
+    }
 
 	const container_1: PIXI.Container = new PIXI.Container();
 	container_1.scale.set(0.5);
@@ -97,18 +126,18 @@ async function main() {
 
 	app.stage.addChildAt(texty, 0);
 
-	const t = new TaggedText('aaa <big>Big text</big> aaa', {
-		default: {
-			fontFamily: 'DungGeunMo',
-		},
-		big: {
-			fontSize: 40,
-			color: '#ff0000',
-			fontFamily: 'PF스타더스트',
-		},
-	}); // renders "Big text" at 25px
+	// const t = new TaggedText('aaa <big>Big text</big> aaa', {
+	// 	default: {
+	// 		fontFamily: 'DungGeunMo',
+	// 	},
+	// 	big: {
+	// 		fontSize: 40,
+	// 		color: '#ff0000',
+	// 		fontFamily: 'PF스타더스트',
+	// 	},
+	// }); // renders "Big text" at 25px
 
-	app.stage.addChild(t);
+	// app.stage.addChild(t);
 
 	let text_size = 50;
 	let is_ascending = true;
@@ -118,9 +147,9 @@ async function main() {
 		if (text_size > 100) is_ascending = false;
 		if (text_size < 50) is_ascending = true;
 		// The change to the style wasn't detected. It still renders "Big text" at 25px
-		t.tagStyles.big.fontSize = text_size;
+		// t.tagStyles.big.fontSize = text_size;
 		// now it renders correctly.
-		t.update();
+		// t.update();
 	});
 
 	// t.getStyleForTag('big').fo
@@ -152,13 +181,34 @@ async function main() {
 	const particleContainer = new PIXI.ParticleContainer(100);
 	container_1.addChild(particleContainer);
 
-	let emitter = new Emitter(particleContainer, emitter_setting);
+	// let emitter = new Emitter(particleContainer, emitter_setting);
 
 	// emitter.autoUpdate = true;
 	// emitter.updateSpawnPos(100, 200);
 	// emitter.emit = true;
 
 	app.ticker.add((delta) => {
-		emitter.update(delta * 0.001);
+		// emitter.update(delta * 0.001);
 	});
+
+    const fps_text = new PIXI.Text(undefined, {
+        fill : '#ff0000'
+    });
+    app.stage.addChild(fps_text);
+
+    
+    let oldTime = 0;
+    app.ticker.add((delta) => {
+
+        let newTime = new Date().getTime();
+        let deltaTime = newTime - oldTime;
+
+        fps_text.text = Math.floor(1000/deltaTime)
+
+        fps_text.position.set(0, window.innerHeight);
+        fps_text.anchor.set(0, 1)
+
+        oldTime = newTime;
+    })
+
 }
