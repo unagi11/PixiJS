@@ -1,6 +1,6 @@
 import F_hologram from './shader/hologram.frag';
 import * as LOADER from './loader';
-import { Application, Container, Filter, Graphics, Sprite, TextStyle, TEXT_GRADIENT } from 'pixi.js';
+import { Application, Container, Filter, Graphics, Sprite, TextStyle, Texture, TEXT_GRADIENT } from 'pixi.js';
 
 /**
  * pixi application 생성
@@ -34,10 +34,20 @@ async function main() {
         app.renderer.resize(width, height);
     });
 
-    let peroro =  Sprite.from('peroro.png')
+    let peroro = Sprite.from('peroro.png')
     app.stage.addChild(peroro);
 
-    let hologram_filter = new Filter(undefined, F_hologram);
+    let hologram_filter = new Filter(undefined, F_hologram)
     peroro.filters = [hologram_filter];
 
+    hologram_filter.uniforms.uTime = 10;
+    hologram_filter.uniforms.uLineTexture = Texture.from('line_pattern.png')
+    hologram_filter.uniforms.uLineResolution = [400, 400]
+
+    let uTime = 0;
+    app.ticker.add(delta => {
+        let ms = delta / 60;
+        uTime = uTime > 60 ? 0 : uTime + ms;
+        hologram_filter.uniforms.uTime = uTime;
+    })
 }

@@ -1,19 +1,20 @@
 precision mediump float;
 
-uniform float uTime;
+uniform sampler2D uSampler;
+uniform sampler2D uLineTexture;
+uniform vec2 uLineResolution;
+uniform vec4 uTintColor;
 uniform vec2 uResolution;
+uniform float uTime;
+
+varying vec2 vTextureCoord;
 
 void main() {
-    vec2 st = gl_FragCoord.xy / uResolution.xy;
-    vec2 toCenter = vec2(0.5) - st;
-    float angle = atan(toCenter.y, toCenter.x);
-    float radius = length(toCenter) * 2.0;
+    vec2 uv = mod(vTextureCoord * 400. + uTime * 60., 400.) / 400.;
 
-    // Add distortion
-    float distortion = sin(radius * 30.0 - uTime * 10.0);
-    radius += distortion * 0.1;
+    vec4 add_color = -texture2D(uLineTexture, uv);
 
-    // Add color
-    vec3 color = vec3(0.3294, 0.6, 0.5176);
-    gl_FragColor =  vec4(color, 0);
+    gl_FragColor = (texture2D(uSampler, vTextureCoord) + add_color) * vec4(0.3451, 0.8235, 0.8667, 1.0);
+    // gl_FragColor = vec4(vTextureCoord, 0., 1.);
+        // - texture2D(data, );
 }
