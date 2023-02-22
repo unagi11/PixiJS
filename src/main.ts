@@ -34,11 +34,11 @@ async function main() {
         app.renderer.resize(width, height);
     });
 
-    let peroro = Sprite.from('peroro.png')
-    app.stage.addChild(peroro);
+    let hos = Sprite.from('susino.png')
+    app.stage.addChild(hos);
 
     let hologram_filter = new Filter(undefined, F_hologram)
-    peroro.filters = [hologram_filter];
+    hos.filters = [hologram_filter];
 
     hologram_filter.uniforms.uTime = 10;
     hologram_filter.uniforms.uLineTexture = Texture.from('line_pattern.png')
