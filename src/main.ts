@@ -39,9 +39,64 @@ async function main() {
     let texture = Texture.from('susino');
     let ss = new SliceableSprite(app.stage , texture);
 
-    range(0, 180, 30).forEach(degree => {
-        ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(degree, {x : 0, y : 0}));
+    // ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(30, {x : 100, y : 0}));
+    // ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(150, {x : 100, y : 0}));
+    // ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(60, {x : 100, y : 0}));
+    // ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(90, {x : 100, y : 0}));
+    // ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(120, {x : 100, y : 0}));
+    // ss.draw();
+    // ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(180, {x : 100, y : 0}));
+    
+
+    // range(0, 180, 30).forEach((degree) => {
+	// 	ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(degree, { x: 150, y: 0 }));
+	// });
+
+    // ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(0, { x: 150, y: 0 }));
+    // ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(30, { x: 150, y: 0 }));
+    // ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(60, { x: 150, y: 0 }));
+    // ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(90, { x: 150, y: 0 })); 
+    // ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(120, { x: 150, y: 0 }));
+		// ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(150, { x: 150, y: 0 }));
+
+	// range(0, 180, 30).forEach((degree) => {
+	// 	ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(degree, { x: -200, y: 0 }));
+	// });
+
+	// range(, 180, 30).forEach((degree) => {
+	// 	ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(degree, { x: -200, y: 0 }));
+	// });
+
+
+	// range(0, 180, 30).forEach((degree) => {
+	// 	ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(degree, { x: +200, y: 0 }));
+	// });
+    
+	// range(0, 180, 30).forEach((degree) => {
+	// 	ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(degree, { x: 0, y: 200 }));
+	// });
+
+	// range(0, 180, 30).forEach((degree) => {
+	// 	ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(degree, { x: 0, y: -200 }));
+	// });
+
+    range(-ss.rect.width , ss.rect.width , ss.rect.width / 20).forEach(x => {
+        ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(60,{x , y : 0}));
     })
+
+    range(-ss.rect.width , ss.rect.width , ss.rect.width / 20).forEach(x => {
+        ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(120,{x , y : 0}));
+    })
+
+    // ss.polygons = ss.sliceByLine(ss.polygons, 
+    //     Slice.get2DotLine({x : 0, y: -ss.rect.height / 2},{x : 1 , y: -ss.rect.height / 2}));
+    // ss.polygons = ss.sliceByLine(ss.polygons, 
+    //     Slice.get2DotLine({x : 0, y: -ss.rect.height / 2 + ss.rect.height / 10 * 9},
+    //     {x : 1 , y: -ss.rect.height / 2 + ss.rect.height / 10 * 9}));
+    
+    // range(-ss.rect.height / 2, ss.rect.height / 2, ss.rect.height / 10).forEach(y => {
+    // }) 
+
     ss.draw(true);
     ss.root.position.set(400, 550);
 }

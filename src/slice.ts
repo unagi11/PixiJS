@@ -29,6 +29,8 @@ interface Segment {
 	p2: Point;
 }
 
+const error = 0.001;
+
 /**
  * 자를 수 있는 스프라이트
  */
@@ -66,7 +68,7 @@ export class SliceableSprite {
 	 * 폴리곤 데이터를 이용해서 조각난 스프라이트를 그립니다.
 	 */
 	draw(debug: boolean = false) {
-		this.root.removeChildren();
+		this.root.removeChildren(); 
 
         let masks: { container: Container; graphics: Graphics }[] = this.polygons.map((polygon) => {
 			let container = new Container();
@@ -93,9 +95,13 @@ export class SliceableSprite {
 
 		// ! Debug
 		if (debug) {
+
+            let color = [0xff0000, 0xffff00, 0x00ff00, 0x00ffff, 0x0000ff, 0xff00ff];
+            let index = 0;
+
 			this.polygons.map((polygon) => {
 				let mask = new Graphics();
-				mask.lineStyle(2, 0xff6666);
+				mask.lineStyle(2, color[index++ % color.length]);
 				mask.beginFill(0, 0);
 				mask.drawPolygon(polygon);
 				mask.endFill();
@@ -103,35 +109,11 @@ export class SliceableSprite {
 				return mask;
 			});
 
-            let dragTarget : Container = undefined;
-
 			this.peices.forEach(peice => {
 				peice.container.interactive = true;
-
 				peice.container.onmousedown = e => {
-					dragTarget = peice.container;
-                    dragTarget.alpha = 0.5;
-
-                    app.stage.onpointermove = e=> {
-                        if (dragTarget) {
-                            dragTarget.parent.toLocal(e.global, null, dragTarget.position);
-                        }
-                    }
+					peice.container.removeFromParent();
 				};
-                peice.container.onmouseup = e=> {
-                    if (dragTarget) {
-                        dragTarget.alpha = 1;
-                        dragTarget = undefined;
-                    }
-                    app.stage.onpointermove = undefined;
-                }
-                peice.container.onmouseupoutside = e=> {
-                    if (dragTarget) {
-                        dragTarget.alpha = 1;
-                        dragTarget = undefined;
-                    }
-                    app.stage.onpointermove = undefined;
-                }
 			});
 		}
 	}
@@ -156,19 +138,30 @@ export class SliceableSprite {
 				if (intersection) intersection_points.push(intersection);
 			}
 
-			if (intersection_points.length > 0) {
+			if (intersection_points.length > 0) { 
 				let polygon1: Point[] = [...intersection_points];
 				let polygon2: Point[] = [...intersection_points];
 
 				for (let i = 0; i < polygon.length; i++) {
 					const p = polygon[i];
 					if (line.a === Infinity || line.a === -Infinity) {
-						if (line.p!.x < p.x) {
+                        if (Math.abs(line.p!.x - p.x) < error) {
+							polygon1.push(p);
+							polygon2.push(p);
+						} else if (line.p!.x < p.x) {
 							polygon1.push(p);
 						} else {
 							polygon2.push(p);
 						}
-					} else if (line.a * p.x + line.b > p.y) polygon1.push(p);
+					}
+                    // 직선 위에 있
+                    else if (Math.abs(line.a * p.x + line.b - p.y) < error) {
+                        polygon1.push(p);
+                        polygon2.push(p);
+                    }   
+                    // 직선 위에 있
+                    else if (line.a * p.x + line.b > p.y) polygon1.push(p);
+                    // 밑에 있냐..
 					else polygon2.push(p);
 				}
 
@@ -181,7 +174,7 @@ export class SliceableSprite {
 
 		function polyIndexOf(arr: Point[], item: Point, startIndex = 0) {
 			for (let i = startIndex; i < arr.length; i++) {
-				if (arr[i].x == item.x && arr[i].y == item.y) {
+				if (Math.abs(arr[i].x - item.x) < error  && Math.abs(arr[i].y - item.y) < error) {
 					return i;
 				}
 			}
@@ -197,7 +190,9 @@ export class SliceableSprite {
 						vertex.y = vertex.y == -0 ? 0 : vertex.y;
 						return vertex;
 					})
-					.filter((item, index) => polyIndexOf(polygon, item) === index)
+					.filter(
+                        (item, index) => 
+                        polyIndexOf(polygon, item) === index)
 			)
 			.filter((polygon) => polygon.length > 2)
 			.map((polygon) => Slice.getConvexHull(polygon));
@@ -285,11 +280,14 @@ export namespace Slice {
 		if (segment_line.a == line.a) return null;
 
 		// 선분의 시작점과 끝점이 각각 직선의 한쪽에 위치하면서, 서로 다른 위치에 있는 경우
-		const orientation1 = Math.sign(line.a * segment.p1.x + line.b - segment.p1.y);
-		const orientation2 = Math.sign(line.a * segment.p2.x + line.b - segment.p2.y);
-		if (orientation1 == orientation2) {
-			return null;
-		}
+		// const orientation1 = line.a * segment.p1.x + line.b - segment.p1.y;
+		// const orientation2 = line.a * segment.p2.x + line.b - segment.p2.y;
+        // if (orientation1 * orientation2 == 0) {
+        //     console.log()
+        // }
+		// if (orientation1 * orientation2 > 0) {
+		// 	return null;
+		// }
 
 		let x: number, y: number;
 		if (segment.p1.x === segment.p2.x) {
@@ -341,11 +339,11 @@ export namespace Slice {
 	 */
 	export function getDegreeLine(degree: number, p: Point): Line {
 		const radian = (degree / 180) * Math.PI;
-		let a = Math.tan(radian);
-		// if (Math.abs(a) > 1000000) a = Math.sign(a) * Infinity;
+		let a = -Math.tan(radian);
+		if (Math.abs(a) > 1000000) a = Infinity;
 		const b = p.y - a * p.x;
-		return { a, b, p };
-	}
+	    return { a, b, p }; 
+	} 
 }
 global.Slice = Slice;
 
