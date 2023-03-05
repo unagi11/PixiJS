@@ -1,6 +1,8 @@
 import F_hologram from './shader/hologram.frag';
 import * as LOADER from './loader';
-import { Application, Container, Filter, Graphics, Sprite, TextStyle, Texture, TEXT_GRADIENT } from 'pixi.js';
+import { Application, Container, Filter, Graphics, Point, Sprite, TextStyle, Texture, TEXT_GRADIENT } from 'pixi.js';
+import { SliceableSprite , Slice, range} from './slice'
+
 
 /**
  * pixi application 생성
@@ -12,11 +14,11 @@ export const app = new Application({
 	backgroundColor: 0x666666,
 	width: window.innerWidth,
 	height: window.innerHeight,
-    antialias: false
+	antialias: false,
 });
 global.app = app;
 
-global.DESIGN_WIDTH  = 1280;
+global.DESIGN_WIDTH = 1280;
 global.DESIGN_HEIGHT = 720;
 
 // main 함수 실행
@@ -28,26 +30,18 @@ main();
 async function main() {
 	await LOADER.load_all();
 
-    window.addEventListener('resize', () => {
-        let width = window.innerWidth;
-        let height = window.innerHeight;
-        app.renderer.resize(width, height);
-    });
+	window.addEventListener('resize', () => {
+		let width = window.innerWidth;
+		let height = window.innerHeight;
+		app.renderer.resize(width, height);
+	});
 
-    let hos = Sprite.from('susino.png')
-    app.stage.addChild(hos);
+    let texture = Texture.from('susino');
+    let ss = new SliceableSprite(app.stage , texture);
 
-    let hologram_filter = new Filter(undefined, F_hologram)
-    hos.filters = [hologram_filter];
-
-    hologram_filter.uniforms.uTime = 10;
-    hologram_filter.uniforms.uLineTexture = Texture.from('line_pattern.png')
-    hologram_filter.uniforms.uLineResolution = [400, 400]
-
-    let uTime = 0;
-    app.ticker.add(delta => {
-        let ms = delta / 60;
-        uTime = uTime > 60 ? 0 : uTime + ms;
-        hologram_filter.uniforms.uTime = uTime;
+    range(0, 180, 30).forEach(degree => {
+        ss.polygons = ss.sliceByLine(ss.polygons, Slice.getDegreeLine(degree, {x : 0, y : 0}));
     })
+    ss.draw(true);
+    ss.root.position.set(400, 550);
 }

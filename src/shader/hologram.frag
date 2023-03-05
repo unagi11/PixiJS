@@ -19,14 +19,14 @@ void main() {
     vec2 uv = vTextureCoord;
     float v = mod(uTime, 3.0); // 3초마다
 
-    // if (v >= 1.5) { // 3초중에 1.5초 마다
+    if (v >= 1.5) { // 3초중에 1.5초 마다
         float noise = fract(uTime * noise_speed) - (1.0 - uv.y);
         uv.x += sin(
             radians(noise * 360.0 * noise_wave_num
                 // clamp(, 0.0, 360.0 * noise_clamp_num)
                 )
             ) * noise_power;
-    // }
+    }
 
     gl_FragColor = texture2D(uSampler, uv);
 }
