@@ -1,5 +1,6 @@
-{ "frames": {
-   "Scene1 (BG).ase": {
+{ "frames": [
+   {
+    "filename": "Scene1 (BG).ase",
     "frame": { "x": 0, "y": 0, "w": 1280, "h": 720 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +8,8 @@
     "sourceSize": { "w": 1280, "h": 720 },
     "duration": 100
    },
-   "Scene1 (surap).ase": {
+   {
+    "filename": "Scene1 (surap).ase",
     "frame": { "x": 0, "y": 720, "w": 352, "h": 457 },
     "rotated": false,
     "trimmed": true,
@@ -15,7 +17,8 @@
     "sourceSize": { "w": 1280, "h": 720 },
     "duration": 100
    },
-   "Scene1 (desk).ase": {
+   {
+    "filename": "Scene1 (desk).ase",
     "frame": { "x": 0, "y": 1177, "w": 598, "h": 385 },
     "rotated": false,
     "trimmed": true,
@@ -23,7 +26,7 @@
     "sourceSize": { "w": 1280, "h": 720 },
     "duration": 100
    }
- },
+ ],
  "meta": {
   "app": "https://www.aseprite.org/",
   "version": "1.2.40-x64",
@@ -34,7 +37,7 @@
   "layers": [
    { "name": "BG", "opacity": 255, "blendMode": "normal" },
    { "name": "surap", "opacity": 255, "blendMode": "normal" },
-   { "name": "desk", "opacity": 255, "blendMode": "normal" }
+   { "name": "desk", "opacity": 255, "blendMode": "normal", "data": "hello" }
   ]
  }
 }

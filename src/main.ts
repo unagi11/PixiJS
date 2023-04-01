@@ -63,29 +63,25 @@ async function main() {
 
     window.onresize = resize;
     resize();
-
-    MakeScene(Scene1_json);
+    let scene1 = Scene1_json
+    makeScene(scene1);
 }
 
-function MakeScene(scene_data : any) {
-	let scene1_frames = scene_data.frames;
-    let keys : string[] = Object.keys(scene1_frames);
-    let values : Frame[] = Object.values(scene1_frames);
+function makeScene(data : SceneData) {
+	let scene1_frames = data.frames;
+    let scene1_meta = data.meta;
+    let names : string[] = scene1_meta.layers.map(layer => layer.name as string);
+    let frames : SceneFrame[] = scene1_frames;
 
-    values.map((value : Frame, index : number) : [string, Frame] => {
-        return [keys[index], value];
-    }).forEach((value : [string, Frame]) => {
-        let name : string = value[0];
-        let frame : Frame = value[1];
-
-        let texture = PIXI.BaseTexture.from('ase/Scene1.png');
+    frames.map((frame, index) => {
+        let texture = PIXI.BaseTexture.from(`ase/${data.meta.image}`);
         let rect =  new PIXI.Rectangle(frame.frame.x, frame.frame.y, frame.frame.w, frame.frame.h);
         let trimmed_texture = new PIXI.Texture(texture, rect);
 
         // 이미지의 일부분을 잘라내어 Sprite 생성
         const sprite = new PIXI.Sprite(trimmed_texture);
         sprite.transform.position.set(frame.spriteSourceSize.x, frame.spriteSourceSize.y);
-        sprite.name = name;
+        sprite.name = names[index];
         
         // add touch button on sprite
         sprite.interactive = true;
@@ -98,7 +94,7 @@ function MakeScene(scene_data : any) {
     });
 }
 
-interface Frame {
+interface SceneFrame {
 	frame: {
 		x: number;
 		y: number;
@@ -111,8 +107,31 @@ interface Frame {
 		w: number;
 		h: number;
 	};
-	soruceSize: {
+	sourceSize: {
 		w: number;
 		h: number;
 	};
+}
+
+interface SceneMeta{
+    app: string;
+    version: string;
+    image: string;
+    format: string;
+    size: {
+        w: number;
+        h: number;
+    };
+    scale: string;
+    layers: {
+        name: string;
+        opacity: number;
+        blendMode: string;
+        data?: string;
+    }[]
+};
+
+interface SceneData {
+    frames: SceneFrame[];
+    meta: SceneMeta;
 }
