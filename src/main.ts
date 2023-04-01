@@ -86,6 +86,20 @@ function makeScene(data : SceneData) {
         // add touch button on sprite
         sprite.interactive = true;
         sprite.on('pointerdown', (a) => {
+
+            // rotate 360 animate
+            
+            let rotate = (delta) => {
+                sprite.rotation += 0.1 * delta;
+
+                if (sprite.angle >= 360){
+                    app.ticker.remove(rotate);
+                    sprite.angle = 0;
+                }
+            }
+
+            app.ticker.add(rotate);
+
             console.log('clicked !! ' + sprite.name);
         });
 
