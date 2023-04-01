@@ -1,46 +1,40 @@
-{
-	"frames": [
-		{
-			"filename": "Scene1 (Background).ase",
-			"frame": { "x": 0, "y": 0, "w": 1280, "h": 720 },
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": { "x": 0, "y": 0, "w": 1280, "h": 720 },
-			"sourceSize": { "w": 1280, "h": 720 },
-			"duration": 100
-		},
-		{
-			"filename": "Scene1 (Layer 1).ase",
-			"frame": { "x": 0, "y": 720, "w": 1280, "h": 720 },
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": { "x": 0, "y": 0, "w": 1280, "h": 720 },
-			"sourceSize": { "w": 1280, "h": 720 },
-			"duration": 100
-		},
-		{
-			"filename": "Scene1 (Layer 1).ase",
-			"frame": { "x": 0, "y": 1440, "w": 1280, "h": 720 },
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": { "x": 0, "y": 0, "w": 1280, "h": 720 },
-			"sourceSize": { "w": 1280, "h": 720 },
-			"duration": 100
-		}
-	],
-	"meta": {
-		"app": "https://www.aseprite.org/",
-		"version": "1.2.40-x64",
-		"image": "Scene1.png",
-		"format": "RGBA8888",
-		"size": { "w": 1280, "h": 2160 },
-		"scale": "1",
-		"frameTags": [],
-		"layers": [
-			{ "name": "Background", "opacity": 255, "blendMode": "normal" },
-			{ "name": "Layer 1", "opacity": 255, "blendMode": "normal" },
-			{ "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
-		],
-		"slices": []
-	}
+{ "frames": {
+   "Scene1 (BG).ase": {
+    "frame": { "x": 0, "y": 0, "w": 1280, "h": 720 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 1280, "h": 720 },
+    "sourceSize": { "w": 1280, "h": 720 },
+    "duration": 100
+   },
+   "Scene1 (surap).ase": {
+    "frame": { "x": 0, "y": 720, "w": 352, "h": 457 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 111, "y": 174, "w": 352, "h": 457 },
+    "sourceSize": { "w": 1280, "h": 720 },
+    "duration": 100
+   },
+   "Scene1 (desk).ase": {
+    "frame": { "x": 0, "y": 1177, "w": 598, "h": 385 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 561, "y": 240, "w": 598, "h": 385 },
+    "sourceSize": { "w": 1280, "h": 720 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "Scene1.png",
+  "format": "RGBA8888",
+  "size": { "w": 1280, "h": 1562 },
+  "scale": "1",
+  "layers": [
+   { "name": "BG", "opacity": 255, "blendMode": "normal" },
+   { "name": "surap", "opacity": 255, "blendMode": "normal" },
+   { "name": "desk", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
 }
