@@ -1,7 +1,7 @@
 { "frames": [
    {
     "filename": "Scene1 (BG).ase",
-    "frame": { "x": 0, "y": 0, "w": 1280, "h": 720 },
+    "frame": { "x": 1, "y": 1, "w": 1280, "h": 720 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 1280, "h": 720 },
@@ -10,7 +10,7 @@
    },
    {
     "filename": "Scene1 (surap).ase",
-    "frame": { "x": 0, "y": 720, "w": 352, "h": 457 },
+    "frame": { "x": 1, "y": 723, "w": 352, "h": 457 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 111, "y": 174, "w": 352, "h": 457 },
@@ -19,7 +19,7 @@
    },
    {
     "filename": "Scene1 (desk).ase",
-    "frame": { "x": 0, "y": 1177, "w": 598, "h": 385 },
+    "frame": { "x": 1, "y": 1182, "w": 598, "h": 385 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 561, "y": 240, "w": 598, "h": 385 },
@@ -32,7 +32,7 @@
   "version": "1.2.40-x64",
   "image": "Scene1.png",
   "format": "RGBA8888",
-  "size": { "w": 1280, "h": 1562 },
+  "size": { "w": 1282, "h": 1568 },
   "scale": "1",
   "layers": [
    { "name": "BG", "opacity": 255, "blendMode": "normal" },
