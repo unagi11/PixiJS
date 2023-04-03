@@ -1,6 +1,7 @@
 import * as LOADER from './loader';
 import * as PIXI from 'pixi.js';
-import Scene1_json from '../static/ase/Scene1.json';
+import scene1_json from '../static/ase/Scene1.json';
+import { SceneData, SceneFrame, SceneMeta } from './Scene';
 
 /**
  * pixi application 생성
@@ -63,15 +64,13 @@ async function main() {
 
     window.onresize = resize;
     resize();
-    let scene1 = Scene1_json
-    makeScene(scene1);
+    makeScene(scene1_json);
 }
 
 function makeScene(data : SceneData) {
-	let scene1_frames = data.frames;
-    let scene1_meta = data.meta;
-    let names : string[] = scene1_meta.layers.map(layer => layer.name as string);
-    let frames : SceneFrame[] = scene1_frames;
+	let frames : SceneFrame[] = data.frames;
+    let meta : SceneMeta = data.meta;
+    let names : string[] = meta.layers.map(layer => layer.name as string);
 
     frames.map((frame, index) => {
         let texture = PIXI.BaseTexture.from(`ase/${data.meta.image}`);
@@ -89,7 +88,7 @@ function makeScene(data : SceneData) {
 
             // rotate 360 animate
             
-            let rotate = (delta) => {
+            let rotate = (delta: number) => {
                 sprite.rotation += 0.1 * delta;
 
                 if (sprite.angle >= 360){
@@ -106,46 +105,4 @@ function makeScene(data : SceneData) {
         // 스테이지에 Sprite 추가
         global.root.addChild(sprite);
     });
-}
-
-interface SceneFrame {
-	frame: {
-		x: number;
-		y: number;
-		w: number;
-		h: number;
-	};
-	spriteSourceSize: {
-		x: number;
-		y: number;
-		w: number;
-		h: number;
-	};
-	sourceSize: {
-		w: number;
-		h: number;
-	};
-}
-
-interface SceneMeta{
-    app: string;
-    version: string;
-    image: string;
-    format: string;
-    size: {
-        w: number;
-        h: number;
-    };
-    scale: string;
-    layers: {
-        name: string;
-        opacity: number;
-        blendMode: string;
-        data?: string;
-    }[]
-};
-
-interface SceneData {
-    frames: SceneFrame[];
-    meta: SceneMeta;
 }
