@@ -1,6 +1,6 @@
 { "frames": [
    {
-    "filename": "Scene1 (BG).ase",
+    "filename": "Scene1 (background).ase",
     "frame": { "x": 1, "y": 1, "w": 1280, "h": 720 },
     "rotated": false,
     "trimmed": false,
@@ -9,7 +9,7 @@
     "duration": 100
    },
    {
-    "filename": "Scene1 (surap).ase",
+    "filename": "Scene1 (drawer).ase",
     "frame": { "x": 1, "y": 723, "w": 352, "h": 457 },
     "rotated": false,
     "trimmed": true,
@@ -35,8 +35,8 @@
   "size": { "w": 1282, "h": 1568 },
   "scale": "1",
   "layers": [
-   { "name": "BG", "opacity": 255, "blendMode": "normal" },
-   { "name": "surap", "opacity": 255, "blendMode": "normal" },
+   { "name": "background", "opacity": 255, "blendMode": "normal" },
+   { "name": "drawer", "opacity": 255, "blendMode": "normal" },
    { "name": "desk", "opacity": 255, "blendMode": "normal", "data": "hello" }
   ]
  }

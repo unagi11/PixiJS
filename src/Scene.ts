@@ -1,64 +1,58 @@
 import * as PIXI from 'pixi.js';
-import { FederatedEventHandler } from 'pixi.js';
+import { Container } from 'pixi.js';
 
-export class Scene {
-	static create(data: SceneData, root: PIXI.Container) {
+export class SceneBase {
+    data : SceneData;
+    root : PIXI.Container;
+    objects : {[key: string]: Container} = {};
 
+	constructor(data: SceneData, root: PIXI.Container) {
+        this.data = data;
+        this.root = root;
+
+        data.frames.forEach((frame, index) => {
+            let layer = data.meta.layers[index];
+            let name = layer.name;
+            
+            let texture = PIXI.BaseTexture.from(`ase/${data.meta.image}`);
+            let rect = frame.frame;
+            let rectangle = new PIXI.Rectangle(rect.x, rect.y, rect.w, rect.h);
+            let trimmed_texture = new PIXI.Texture(texture, rectangle);
+    
+            // 이미지의 일부분을 잘라내어 Sprite 생성
+            let sprite = new PIXI.Sprite(trimmed_texture);
+            sprite.transform.position.set(frame.spriteSourceSize.x, frame.spriteSourceSize.y);
+            sprite.name = layer.name;
+
+            this.objects[layer.name] = sprite;
+    
+            sprite.interactive = true;
+            sprite.on('pointerdown', (a) => {
+                console.log(sprite.name);
+            });
+    
+            // 스테이지에 Sprite 추가
+            root.addChild(sprite);
+        });
     }
 
-	constructor(public data: SceneData, public root: PIXI.Container) {
-
+    findObject(name : string) : Container {
+        return this.objects[name];
     }
 }
 
-export class Interactor {
-    sprite : PIXI.Sprite;
-    rect : PIXI.Rectangle;
-    name : string;
-    layer : number;
-    blendMode : string;
-    opacity : number;
-    data : string;
+// export class ObjectBase {
+//     sprite : PIXI.Sprite;
+//     rect : PIXI.Rectangle;
+//     name : string;
+//     layer : number;
+//     blendMode : string;
+//     opacity : number;
+//     data : string;
 
-    constructor(data : SceneFrame, meta : SceneMeta, layer : SceneLayer, root : PIXI.Container) {
-        let texture = PIXI.BaseTexture.from(`ase/${meta.image}`);
-        let rect =  new PIXI.Rectangle(data.frame.x, data.frame.y, data.frame.w, data.frame.h);
-        let trimmed_texture = new PIXI.Texture(texture, rect);
-
-        // 이미지의 일부분을 잘라내어 Sprite 생성
-        this.sprite = new PIXI.Sprite(trimmed_texture);
-        this.sprite.transform.position.set(data.spriteSourceSize.x, data.spriteSourceSize.y);
-        this.sprite.name = layer.name;
-        
-        // add touch button on sprite
-        this.sprite.interactive = true;
-
-        // this.sprite.onpointerup(event_handler );
-            
-        //     (a) => {
-
-        //     // rotate 360 animate
-            
-        //     let rotate = (delta: number) => {
-        //         this.sprite.rotation += 0.1 * delta;
-
-        //         if (this.sprite.angle >= 360){
-        //             app.ticker.remove(rotate);
-        //             this.sprite.angle = 0;
-        //         }
-        //     }
-
-        //     app.ticker.add(rotate);
-
-        //     console.log('clicked !! ' + this.sprite.name);
-        // });
-
-        // 스테이지에 Sprite 추가
-        root.addChild(this.sprite);
-    }
-
-
-}
+//     constructor(data : SceneFrame, meta : SceneMeta, layer : SceneLayer, root : PIXI.Container) {
+//     }
+// }
 
 export interface SceneFrame {
 	frame: {

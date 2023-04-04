@@ -1,7 +1,8 @@
 import * as LOADER from './loader';
 import * as PIXI from 'pixi.js';
 import scene1_json from '../static/ase/Scene1.json';
-import { SceneData, SceneFrame, SceneMeta } from './Scene';
+import { SceneBase, SceneData, SceneFrame, SceneMeta } from './scene';
+import { Scene1 } from './scene_1';
 
 /**
  * pixi application 생성
@@ -64,7 +65,11 @@ async function main() {
 
     window.onresize = resize;
     resize();
-    makeScene(scene1_json);
+    // makeScene(scene1_json);
+    let scene1 = new Scene1(scene1_json, global.root);
+    // scene1.desk.visible = false;
+    // scene1.background.visible = false;
+
 }
 
 function makeScene(data : SceneData) {
